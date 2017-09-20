@@ -1,0 +1,51 @@
+---
+# tasks file for roles/project
+- name: Create project path
+  file:
+    path: "{{ project_path }}"
+    state: directory
+    mode: 0755
+
+- name: Clone repo
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ project_path }}"
+    accept_hostkey: yes
+
+- name: Install bundler
+  command: rvm use {{ rvm_gemset }} do gem install bundler --no-ri --no-rdoc
+  args:
+    chdir: "{{ project_path }}"
+
+- name: bundle install
+  command: rvm use {{ rvm_gemset }} do bundle install
+  args:
+    chdir: "{{ project_path }}"
+
+# - name: Install NVM
+#   command: wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | bash
+#   args:
+#     chdir: "{{ project_path }}"
+#   tags: ['test']
+
+# - name: nvm install
+#   command: nvm install
+#   args:
+#     chdir: "{{ project_path }}"
+#   tags: ['test']
+
+# - name: Install yarn globally
+#   npm:
+#     name: yarn
+#     global: yes
+#   tags: ['test']
+
+# - name: yarn install
+#   command: yarn install
+#   args:
+#     chdir: "{{ project_path }}"
+#   tags: ['test']
+
+# update node vertion
+
+# start postgres on restart

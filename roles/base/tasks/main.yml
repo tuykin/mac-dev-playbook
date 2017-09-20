@@ -1,0 +1,43 @@
+---
+# tasks file for roles/base
+- name: Install homebrew packages
+  homebrew:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gpg
+    - git
+    - node
+    - openssl
+    - wget
+    - postgresql
+    - imagemagick
+
+- name: Generate ssh key
+  user:
+    name: "{{ ansible_user_id }}"
+    generate_ssh_key: yes
+    ssh_key_file: .ssh/id_rsa
+
+- name: Gitconfig
+  git_config:
+    name: "{{ item.key }}"
+    scope: global
+    value: "{{ item.value }}"
+  with_items:
+    - { key: "user.name", value: "{{ git_user_name }}" }
+    - { key: "user.email", value: "{{ git_user_email }}" }
+
+- name: Read SSH public key
+  shell: cat ~/.ssh/id_rsa.pub
+  register: ssh_pub_key
+
+- name: Print public key for adding to Github and Bitbucket
+  command: echo "{{ item }}"
+  with_items:
+    - "Add this key to authorized machines list:"
+    - "{{ ssh_pub_key.stdout }}"
+    - "https://github.com/settings/keys"
+    - "https://bitbucket.org/account/user/<USERNAME>/ssh-keys/"
+    - "And generate token:"
+    - "https://github.com/settings/tokens"
