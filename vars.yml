@@ -1,0 +1,15 @@
+rvm1_rubies:
+  - 'ruby-2.4.1'
+rvm1_user: 'vagrant'
+rvm1_gpg_key_server: 'hkp://pgp.mit.edu'
+rvm1_gpg_keys: ''
+
+git_user_name: 'Anvar Tuykin'
+git_user_email: 'tuykin@gmail.com'
+
+projects_path: '~/projects'
+project_name: 'your_agora'
+project_path: "{{ projects_path }}/{{ project_name }}"
+repo_url: 'git@bitbucket.org:TriglavLLC/your-agora.git'
+
+rvm_gemset: 'ruby-2.4.1@your-agora'
