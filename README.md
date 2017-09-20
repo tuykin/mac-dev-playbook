@@ -14,6 +14,11 @@ vagrant up
 ansible-playbook -i inventory.ini main.yml
 ```
 
+To run locally use:
+```
+ansible-playbook -i local.ini main.yml -c local
+```
+
 To provision macOS:
 
 1. `xcode-select --install`
